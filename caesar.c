@@ -12,44 +12,55 @@ string plaintext;
 
 int main (int argc, string argv[])
 {
-    //Check for sufficient number of argument passed to the function
-    if(argc < 2)
+    // Check for sufficient number of argument passed to the function
+    if(argc != 2)
     {
-        printf("Insuffient arguments passed to execute function. Enter a 'key' and 'text' to cipher\n");
+        printf("Usage: ./caesar k\n");
+        return 1;
     }
+
     else
     {
+        // Prompt user for plain text
+        plaintext = get_string("plaintext: ");
+        printf("ciphertext: ");
         key = atoi(argv[1]);
-        for(int i = 2; i < argc; i++)
+        for (int j = 0, n = strlen(plaintext); j < n; j++ )
         {
-            plaintext = argv[i];
-            //Loop to extract each char from string
-            for (int j = 0, n = strlen(plaintext); j < n; j++ )
+            // Check to see if char is alphabetical
+            if(plaintext[j] < 'A' ||
+                (plaintext[j] > 'Z' && plaintext[j] < 'a') ||
+                plaintext[j] > 'z')
             {
-                if(plaintext[j] < 'A' || (plaintext[j] > 'Z' && plaintext[j] < 'a') || plaintext[j] > 'z')   //check to see if char is alphabetical
+                printf("%c", plaintext[j]);
+            }
+            else
+            {
+                // If lowercase:
+                // 1. convert to uppercase
+                // 2. convert to alphaindex
+                // 3. cipher alphaindex
+                // 4. convert back to alpha char and uppercase
+                if(islower(plaintext[j]))
                 {
-                    printf("%c", plaintext[j]);
+                    plaintext[j] = plaintext[j] - 32;
+                    alphaindex = plaintext[j] - 65;
+                    cipherindex = (alphaindex + key) % 26;
+                    ciphertext = cipherindex + 65 + 32;
+                    printf("%c", ciphertext);
                 }
+
+                // Else if uppercase, perform similar operations as above
+                // with no lowercase conversion
                 else
                 {
-                    if(islower(plaintext[j]))                        //check to see if lowercase and covert accordingly
-                    {
-                        plaintext[j] = plaintext[j] - 32;
-                        alphaindex = plaintext[j] - 65;                //convert to alpha index
-                        cipherindex = (alphaindex + key) % 26;      //cipher alphaindex
-                        ciphertext = cipherindex + 65 + 32;              //convert to ciphertext and uppercase
-                        printf("%c", ciphertext);
-                    }
-                    else
-                    {
-                        alphaindex = plaintext[j] - 65;                //convert to alpha index
-                        cipherindex = (alphaindex + key) % 26;      //cipher alphaindex
-                        ciphertext = cipherindex + 65;              //convert to ciphertext and uppercase
-                        printf("%c", ciphertext);
-                    }
+                    alphaindex = plaintext[j] - 65;
+                    cipherindex = (alphaindex + key) % 26;
+                    ciphertext = cipherindex + 65;
+                    printf("%c", ciphertext);
                 }
             }
-            printf("\n");
         }
+        printf("\n");
     }
 }
