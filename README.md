@@ -14,4 +14,5 @@ wherein mod 26 here means "remainder when dividing by 26." This formula perhaps 
 
 # Usage:
 1. C program: ./caesar <key><br/>
+2. Python program: python caesar.py <key><br/>
 NOTE: <key> must be a non-negative integer. Program does NOT validate non-interger input!
